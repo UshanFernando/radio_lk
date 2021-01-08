@@ -33,7 +33,7 @@ class Player extends StatelessWidget {
               offset: Offset(0, 0), // changes position of shadow
             ),
           ],
-          color: Colors.white,
+          color: Theme.of(context).backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -98,7 +98,7 @@ class Player extends StatelessWidget {
                               ? selectedStation.album
                               : "Play Radio",
                           style: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).accentColor,
                             fontSize: 20.0,
                             fontWeight: FontWeight.w500
                           ),
@@ -127,7 +127,7 @@ class Player extends StatelessWidget {
                           child: Icon(
                             Icons.stop,
                             size: 40,
-                            color: Colors.black,
+                            color: Theme.of(context).accentColor,
                           )),
                       onTap: AudioService.stop,
                     ),
@@ -148,12 +148,12 @@ class Player extends StatelessWidget {
                             ? Icon(
                                 Icons.play_arrow,
                                 size: 50,
-                                color: Colors.black,
+                                color: Theme.of(context).accentColor,
                               )
                             : Icon(
                                 Icons.pause,
                                 size: 50,
-                                color: Colors.black,
+                                color: Theme.of(context).accentColor,
                               )),
                     onTap: !playing ? playFunc : AudioService.pause,
                   ),

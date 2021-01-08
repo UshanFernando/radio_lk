@@ -10,22 +10,23 @@ import 'package:radio_lk/widgets/player.dart';
 import 'package:rxdart/rxdart.dart';
 import 'Model/Station.dart';
 import 'PlayerBG/AudioPlayerTask.dart';
+import 'Providers/ThemeProvider.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(ChangeNotifierProvider<ThemeNotifier>(
+    create: (_) => new ThemeNotifier(), child: new MyApp()));
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => StationsProvider()),
-      ],
-      child: MaterialApp(
+    return Consumer<ThemeNotifier>(
+      builder: (context, theme, _) => MaterialApp(
         title: 'Radio.lk',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
+        theme: theme.getTheme,
+        showPerformanceOverlay: true,
+        // ThemeData(
+        //   primarySwatch: Colors.red,
+        //   visualDensity: VisualDensity.adaptivePlatformDensity,
+        // ),
         home: MyHomePage(title: 'Radio.lk'),
       ),
     );
@@ -90,12 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
       // ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 255, 148, 114),
-              Color.fromARGB(255, 242, 112, 156),
-            ],
-          ),
+          gradient: Theme.of(context).brightness == Brightness.dark
+              ? LinearGradient(colors: [
+                  Color.fromARGB(255, 20, 30, 48),
+                  Color.fromARGB(255, 36, 59, 85),
+                ])
+              : LinearGradient(colors: [
+                  Color.fromARGB(255, 255, 148, 114),
+                  Color.fromARGB(255, 242, 112, 156),
+                ], begin: Alignment.topCenter, end: Alignment.bottomCenter),
         ),
         child: StreamBuilder<AudioState>(
             stream: _audioStateStream,
@@ -122,13 +126,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   Align(
                       alignment: Alignment.topRight,
                       child: GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           print("Open Settings Callled");
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SettingScreen()),
-                            );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SettingScreen()),
+                          );
                         },
                         child: SizedBox(
                           width: 50,

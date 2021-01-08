@@ -89,17 +89,20 @@ class _StationsState extends State<Stations> {
                 length: 4,
                 child: Scaffold(
                   appBar: TabBar(
-                    labelColor: Colors.black,
+                    labelColor: Theme.of(context).accentColor,
                     isScrollable: true,
+                    unselectedLabelColor: Theme.of(context).accentColor,
                     tabs: <Widget>[
-                      Tab(text: "All"),
+                      Tab(
+                        text: "All",
+                      ),
                       Tab(text: "Favourite"),
                       Tab(text: "International"),
                       Tab(text: "Religious")
                     ],
                   ),
                   body: Container(
-                      margin: EdgeInsets.all(5),
+                      margin: EdgeInsets.fromLTRB(5, 5, 5, 80),
                       child: TabBarView(children: [
                         listBuilder(null),
                         buildFavourites(),
@@ -152,7 +155,9 @@ class _StationsState extends State<Stations> {
                 trailing: IconButton(
                     icon: Icon(
                       Icons.star,
-                     color:_favSaved.contains(i)?  Colors.orangeAccent:Colors.grey,
+                      color: _favSaved.contains(i)
+                          ? Colors.orangeAccent
+                          : Colors.grey,
                     ),
                     onPressed: () => {_setFavourite(i)}),
               ));
@@ -225,28 +230,26 @@ class _StationsState extends State<Stations> {
     final SharedPreferences prefs = await _prefs;
     if (_favSaved.contains(station)) {
       _favSaved.remove(station);
-       Fluttertoast.showToast(
-        msg: "Removed from Favourites",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+      Fluttertoast.showToast(
+          msg: "Removed from Favourites",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
       print("removed to Favorites");
     } else {
       _favSaved.add(station);
       print("Added to Favorites");
-          Fluttertoast.showToast(
-        msg: "Added to Favourites",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+      Fluttertoast.showToast(
+          msg: "Added to Favourites",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
     }
 
 // convert your custom list to string list
@@ -256,6 +259,5 @@ class _StationsState extends State<Stations> {
     print(favList);
     prefs.setStringList("favList", favList);
     _loadFavorites();
-    
   }
 }
